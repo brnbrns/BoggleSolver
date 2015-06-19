@@ -68,6 +68,8 @@ public class Input {
 			System.err.println("File not found.");
 			System.exit(1);
 		}
+
+		Window w = new Window();
 		// Create a new graph
 		Graph g = new Graph(board, dict);
 		// Solve the game
