@@ -15,8 +15,10 @@ public class Window extends JFrame implements ActionListener {
 	private JLabel by;
 	private JLabel enterBoard;
 	private JLabel selectDict;
+	private JLabel dictSuccess;
 	
 	private JButton dictButton;
+	private JButton solveButton;
 
 	private JTextField rowEntry;
 	private JTextField colEntry;
@@ -68,6 +70,17 @@ public class Window extends JFrame implements ActionListener {
 		dictButton.setLocation(10, 130);
 		c.add(dictButton);
 
+		dictSuccess = new JLabel("Success!");
+		dictSuccess.setSize(60, 50);
+		dictSuccess.setLocation(220, 130);
+		dictSuccess.setVisible(false);
+		c.add(dictSuccess);
+
+		solveButton = new JButton("Solve!");
+		solveButton.setSize(75, 50);
+		solveButton.setLocation(350, 180);
+		c.add(solveButton);
+
 		this.setSize(800, 600);
 		this.setLocation(100, 100);
 		this.setVisible(true);
@@ -85,6 +98,7 @@ public class Window extends JFrame implements ActionListener {
 				} catch (FileNotFoundException error) {
 					error.printStackTrace();
 				}
+				dictSuccess.setVisible(true);
 			}
 		}
 	}
