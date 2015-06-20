@@ -7,7 +7,7 @@
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.*;
 
 public class Window extends JFrame implements ActionListener {
@@ -16,7 +16,7 @@ public class Window extends JFrame implements ActionListener {
 	private JLabel enterBoard;
 	private JLabel selectDict;
 	
-	private JButton dict;
+	private JButton dictButton;
 
 	private JTextField rowEntry;
 	private JTextField colEntry;
@@ -62,12 +62,41 @@ public class Window extends JFrame implements ActionListener {
 		boardEntry.setLocation(10, 95);
 		c.add(boardEntry);
 
+		dictButton = new JButton("Select Dictionary File");
+		dictButton.addActionListener(this);
+		dictButton.setSize(200, 50);
+		dictButton.setLocation(10, 130);
+		c.add(dictButton);
+
 		this.setSize(800, 600);
 		this.setLocation(100, 100);
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		// User pressed select dictionary button
+		if (e.getSource() == dictButton) {
+			fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File dict = fc.getSelectedFile();
+				try {
+					readDictionary(dict);
+				} catch (FileNotFoundException error) {
+					error.printStackTrace();
+				}
+			}
+		}
+	}
 
+	private CharacterTree readDictionary(File toRead) throws FileNotFoundException {
+		CharacterTree dict = new CharacterTree();
+		Scanner s = new Scanner(toRead);
+		while (s.hasNextLine()) {
+			String word = s.nextLine();
+			dict.add(word);
+		}
+		s.close();
+		return dict;
 	}
 }
