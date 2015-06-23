@@ -77,6 +77,7 @@ public class Window extends JFrame implements ActionListener {
 		c.add(dictSuccess);
 
 		solveButton = new JButton("Solve!");
+		solveButton.addActionListener(this);
 		solveButton.setSize(75, 50);
 		solveButton.setLocation(350, 180);
 		c.add(solveButton);
@@ -100,7 +101,19 @@ public class Window extends JFrame implements ActionListener {
 				}
 				dictSuccess.setVisible(true);
 			}
+		} else if (e.getSource() == solveButton) {
+			readBoard();
 		}
+	}
+
+	private Vertex[][] readBoard() {
+		int rows = Integer.parseInt(rowEntry.getText());
+		int cols = Integer.parseInt(colEntry.getText());
+		Vertex[][] board = new Vertex[rows][cols];
+		String boardString = boardEntry.getText().replaceAll("\\s", "");
+		String[] rowStrings = splitBoard(boardString, rows);
+		for (String row : rowStrings) System.out.println(row);
+		return null;
 	}
 
 	private CharacterTree readDictionary(File toRead) throws FileNotFoundException {
@@ -112,5 +125,15 @@ public class Window extends JFrame implements ActionListener {
 		}
 		s.close();
 		return dict;
+	}
+
+	private String[] splitBoard(String text, int size) {
+		String[] result = new String[(text.length() + size - 1) / size];
+		int spot = 0;
+		for (int i=0; i<text.length(); i+=size) {
+			result[spot] = text.substring(i, Math.min(text.length(), i+size));
+			spot++;
+		}
+		return result;
 	}
 }
