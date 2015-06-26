@@ -24,9 +24,13 @@ public class Window extends JFrame implements ActionListener {
 	private JTextField colEntry;
 	private JTextField boardEntry;
 
-	JFileChooser fc;
+  private DefaultListModel words;
+  private JList wordList;
+  private JScrollPane scrollPane;
 
-  CharacterTree dict = null;
+	private JFileChooser fc;
+
+  private CharacterTree dict = null;
 
 	public Window() {
 		super("Boggle Solver");
@@ -86,6 +90,15 @@ public class Window extends JFrame implements ActionListener {
 		solveButton.setLocation(350, 180);
 		c.add(solveButton);
 
+    words = new DefaultListModel();
+    wordList = new JList(words);
+    wordList.setFont(new Font("Monospaced", Font.PLAIN, 12));
+    scrollPane = new JScrollPane(wordList);
+    scrollPane.setSize(500, 300);
+    scrollPane.setLocation(145, 240);
+    c.add(scrollPane);
+    scrollPane.setVisible(false);
+
 		this.setSize(800, 600);
 		this.setLocation(100, 100);
 		this.setVisible(true);
@@ -108,13 +121,12 @@ public class Window extends JFrame implements ActionListener {
 		} else if (e.getSource() == solveButton) {
       //System.out.println("READING BOARD");
 			Vertex[][] board = readBoard();
-      //System.out.println("BOARD READ");
       Graph g = new Graph(board, dict);
-      //System.out.println("SOLVING");
       ArrayList<String> solution = g.solve();
-      //System.out.println("PRINTING");
-      Output o = new Output(solution);
-      o.printSolution();
+      scrollPane.setVisible(true);
+      for (String word : solution) {
+        words.addElement(word);
+      }
 		}
 	}
 
