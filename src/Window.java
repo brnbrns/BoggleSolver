@@ -16,6 +16,7 @@ public class Window extends JFrame implements ActionListener {
 	private JLabel enterBoard;
 	private JLabel selectDict;
 	private JLabel dictSuccess;
+  private JLabel wordCount;
 	
 	private JButton dictButton;
 	private JButton solveButton;
@@ -96,8 +97,14 @@ public class Window extends JFrame implements ActionListener {
     scrollPane = new JScrollPane(wordList);
     scrollPane.setSize(500, 300);
     scrollPane.setLocation(145, 240);
-    c.add(scrollPane);
     scrollPane.setVisible(false);
+    c.add(scrollPane);
+
+    wordCount = new JLabel("Nothing to see here");
+    wordCount.setSize(125, 50);
+    wordCount.setLocation(655, 240);
+    wordCount.setVisible(false);
+    c.add(wordCount);
 
 		this.setSize(800, 600);
 		this.setLocation(100, 100);
@@ -118,15 +125,23 @@ public class Window extends JFrame implements ActionListener {
 				}
 				dictSuccess.setVisible(true);
 			}
+    // User pressed solve button
 		} else if (e.getSource() == solveButton) {
-      //System.out.println("READING BOARD");
+      // Create the board
 			Vertex[][] board = readBoard();
+      // Send the board and dictionary chosen to Graph
       Graph g = new Graph(board, dict);
+      // Get the solution
       ArrayList<String> solution = g.solve();
+      // Display the scroll pane
       scrollPane.setVisible(true);
+      // Add each answer to the scroll pane
       for (String word : solution) {
         words.addElement(word);
       }
+      // Display the word count
+      wordCount.setText("Words found: " + solution.size());
+      wordCount.setVisible(true);
 		}
 	}
 
