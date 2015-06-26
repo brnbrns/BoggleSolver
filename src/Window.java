@@ -82,7 +82,7 @@ public class Window extends JFrame implements ActionListener {
 
 		solveButton = new JButton("Solve!");
 		solveButton.addActionListener(this);
-		solveButton.setSize(75, 50);
+		solveButton.setSize(80, 50);
 		solveButton.setLocation(350, 180);
 		c.add(solveButton);
 
