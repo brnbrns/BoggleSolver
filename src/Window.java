@@ -26,6 +26,8 @@ public class Window extends JFrame implements ActionListener {
 
 	JFileChooser fc;
 
+  CharacterTree dict = null;
+
 	public Window() {
 		super("Boggle Solver");
 
@@ -95,16 +97,24 @@ public class Window extends JFrame implements ActionListener {
 			fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File dict = fc.getSelectedFile();
+				File dictFile = fc.getSelectedFile();
 				try {
-					readDictionary(dict);
+					dict = readDictionary(dictFile);
 				} catch (FileNotFoundException error) {
 					error.printStackTrace();
 				}
 				dictSuccess.setVisible(true);
 			}
 		} else if (e.getSource() == solveButton) {
-			readBoard();
+      //System.out.println("READING BOARD");
+			Vertex[][] board = readBoard();
+      //System.out.println("BOARD READ");
+      Graph g = new Graph(board, dict);
+      //System.out.println("SOLVING");
+      ArrayList<String> solution = g.solve();
+      //System.out.println("PRINTING");
+      Output o = new Output(solution);
+      o.printSolution();
 		}
 	}
 
@@ -114,8 +124,18 @@ public class Window extends JFrame implements ActionListener {
 		Vertex[][] board = new Vertex[rows][cols];
 		String boardString = boardEntry.getText().replaceAll("\\s", "");
 		String[] rowStrings = splitBoard(boardString, rows);
-		for (String row : rowStrings) System.out.println(row);
-		return null;
+		int boardPosition = 0;
+    for (int r = 0; r<rowStrings.length; r++) {
+      char[] chars = rowStrings[r].toCharArray();
+      Vertex[] row = new Vertex[cols];
+      for (int c=0; c<cols; c++) {
+        Vertex v = new Vertex(chars[c], boardPosition);
+        row[c] = v;
+        boardPosition++;
+      }
+      board[r] = row;
+    }
+		return board;
 	}
 
 	private CharacterTree readDictionary(File toRead) throws FileNotFoundException {
