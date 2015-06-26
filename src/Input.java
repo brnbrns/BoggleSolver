@@ -57,7 +57,7 @@ public class Input {
 		s.close();
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Input i = new Input();
 		try {
 			// Read in the board and the dictionary
@@ -71,11 +71,11 @@ public class Input {
 
 		Window w = new Window();
 		// Create a new graph
-		/*Graph g = new Graph(board, dict);
+		Graph g = new Graph(board, dict);
 		// Solve the game
 		ArrayList<String> solution = g.solve();
 		// Output all valid words
 		Output o = new Output(solution);
-		o.printSolution();*/
-	}
+		o.printSolution();
+	}*/
 }

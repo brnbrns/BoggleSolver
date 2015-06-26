@@ -29,6 +29,8 @@ public class Window extends JFrame implements ActionListener {
 	public Window() {
 		super("Boggle Solver");
 
+    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 		Container c = getContentPane();
 		c.setLayout(null);
 
@@ -136,4 +138,8 @@ public class Window extends JFrame implements ActionListener {
 		}
 		return result;
 	}
+
+  public static void main(String[] args) {
+    Window w = new Window();
+  }
 }
