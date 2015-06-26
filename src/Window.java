@@ -64,7 +64,7 @@ public class Window extends JFrame implements ActionListener {
 		c.add(colEntry);
 
 		enterBoard = new JLabel("Now the game board, with spaces between letters, from top to bottom:");
-		enterBoard.setSize(450, 50);
+		enterBoard.setSize(550, 50);
 		enterBoard.setLocation(10, 55);
 		c.add(enterBoard);
 
@@ -80,7 +80,7 @@ public class Window extends JFrame implements ActionListener {
 		c.add(dictButton);
 
 		dictSuccess = new JLabel("Success!");
-		dictSuccess.setSize(60, 50);
+		dictSuccess.setSize(100, 50);
 		dictSuccess.setLocation(220, 130);
 		dictSuccess.setVisible(false);
 		c.add(dictSuccess);
