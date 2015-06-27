@@ -150,7 +150,7 @@ public class Window extends JFrame implements ActionListener {
 		int cols = Integer.parseInt(colEntry.getText());
 		Vertex[][] board = new Vertex[rows][cols];
 		String boardString = boardEntry.getText().replaceAll("\\s", "");
-		String[] rowStrings = splitBoard(boardString, rows);
+		String[] rowStrings = splitBoard(boardString, cols);
 		int boardPosition = 0;
     for (int r = 0; r<rowStrings.length; r++) {
       char[] chars = rowStrings[r].toCharArray();
