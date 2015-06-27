@@ -4,6 +4,7 @@
 * Provides GUI functionality
 ***************/
 
+// Imports
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
@@ -231,7 +232,7 @@ public class Window extends JFrame implements ActionListener {
       Vertex[] row = new Vertex[cols];
       // Create each vertex and add it to the row
       for (int c=0; c<cols; c++) {
-        Vertex v = new Vertex(chars[c], boardPosition);
+        Vertex v = new Vertex(Character.toUpperCase(chars[c]), boardPosition);
         row[c] = v;
         boardPosition++;
       }
