@@ -4,17 +4,42 @@
  * Creates an adjacency list for each vertex and solves the game using depth first search
  ***************/
 
+// Import
 import java.util.ArrayList;
 
+/**
+ * Represents the game board in a graph, and uses depth-first search to solve the board
+ * @author Brian Burns
+ */
 public class Graph {
-	// Needed variables
-	private int rows, cols;
-	private ArrayList<Vertex>[] adj;
-	private ArrayList<String> solution;
-	private CharacterTree dict;
+	/**
+   * The number of rows on the board
+   */
+	private int rows; 
+  /**
+   * The number of columns on the board
+   */
+  private int cols;
+	/**
+   * The adjacency lists representing the board
+   */
+  private ArrayList<Vertex>[] adj;
+	/**
+   * An arraylist containing all solutions to the game
+   */
+  private ArrayList<String> solution;
+	/**
+   * The character tree representation of the dictionary to use
+   */
+  private CharacterTree dict;
 	
-	// Constructor
+	/**
+   * Initializes the graph
+   * @param matrix The game board represented as a matrix
+   * @param t The dictionary represented as a character tree
+   */
 	public Graph(Vertex[][] matrix, CharacterTree t) {
+    // Get the rows and columns
 		rows = matrix.length;
 		cols = matrix[0].length;
 		adj = new ArrayList[rows*cols];
@@ -24,7 +49,10 @@ public class Graph {
 		listify(matrix);
 	}
 	
-	// Creates each vertex's adjacency list
+	/**
+   * Creates each vertex's adjacency list
+   * @param matrix The game board represented as a matrix
+   */
 	private void listify(Vertex[][] matrix) {
 		// Keep track of the current vertex spot
 		int position = 0;
@@ -63,7 +91,10 @@ public class Graph {
 		}
 	}
 	
-	// Solves the board by running a depth first search on each vertex
+	/**
+   * Solves the board by running a depth first search on each vertex
+   * @return An arraylist containing all solutions to the game
+   */
 	public ArrayList<String> solve() {
 		// Seen array to keep track of used letters
 		boolean[] seen;
@@ -81,7 +112,12 @@ public class Graph {
 		return solution;
 	}
 	
-	// Runs a depth first search recursively
+	/**
+   * Runs a depth first search recursively
+   * @param v The current vertex
+   * @param word The word traced on the board up to now
+   * @param seen An array representing which vertices have already been used
+   */
 	private void dfs(Vertex v, String word, boolean[] seen) {
 		// Mark the current vertex as seen
 		seen[v.getPos()] = true;
