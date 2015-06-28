@@ -40,6 +40,8 @@ public class Window extends JFrame implements ActionListener {
    * Shows the number of words found
    */
   private JLabel wordCount;
+
+  private JLabel search;
 	
   /**
    * Button for selecting a dictionary file
@@ -63,6 +65,8 @@ public class Window extends JFrame implements ActionListener {
    */
 	private JTextField boardEntry;
 
+  private JTextField searchEntry;
+
   /**
    * List Model for the solution
    */
@@ -85,6 +89,8 @@ public class Window extends JFrame implements ActionListener {
    * Character tree to search for valid words
    */
   private CharacterTree dict = null;
+
+  private CharacterTree solutionTrie;
 
   /**
    * Creates the window and positions the items
@@ -164,6 +170,19 @@ public class Window extends JFrame implements ActionListener {
     wordCount.setVisible(false);
     c.add(wordCount);
 
+    search = new JLabel("Search:");
+    search.setSize(125, 50);
+    search.setLocation(655, 260);
+    search.setVisible(false);
+    c.add(search);
+
+    searchEntry = new JTextField();
+    searchEntry.addActionListener(this);
+    searchEntry.setSize(125, 20);
+    searchEntry.setLocation(655, 300);
+    searchEntry.setVisible(false);
+    c.add(searchEntry);
+
 		this.setSize(800, 600);
 		this.setLocation(100, 100);
 		this.setVisible(true);
@@ -191,8 +210,11 @@ public class Window extends JFrame implements ActionListener {
         // Inform user of success
 				dictSuccess.setVisible(true);
 			}
+
     // User pressed solve button
 		} else if (e.getSource() == solveButton) {
+      // Clear the scroll pane in case of previous search
+      words.removeAllElements();
       // Create the board
 			Vertex[][] board = readBoard();
       // Send the board and dictionary chosen to Graph
@@ -208,14 +230,36 @@ public class Window extends JFrame implements ActionListener {
       solutionArray = sorter.getSorted();
       // Display the scroll pane
       scrollPane.setVisible(true);
+      solutionTrie = new CharacterTree();
       // Add each answer to the scroll pane
       for (String word : solutionArray) {
         words.addElement(word);
+        solutionTrie.add(word);
       }
       // Display the word count
       wordCount.setText("Words found: " + solution.size());
       wordCount.setVisible(true);
-		}
+      search.setVisible(true);
+      searchEntry.setVisible(true);
+
+
+		} else if (e.getSource() == searchEntry) {
+      String query = searchEntry.getText();
+      ArrayList<String> searchResult = solutionTrie.getValidWords(query.toUpperCase());
+      if (searchResult != null) {
+        String[] resultArray = new String[searchResult.size()];
+        for (int i=0; i<resultArray.length; i++) {
+          resultArray[i] = searchResult.get(i);
+        }
+        words.removeAllElements();
+        Sorter sorter = new Sorter(resultArray);
+        sorter.alphabetize(0, resultArray.length);
+        resultArray = sorter.getSorted();
+        for (String s : resultArray) {
+          words.addElement(s);
+        }
+      } else words.removeAllElements();
+    }
 	}
 
   /**
