@@ -203,6 +203,9 @@ public class Window extends JFrame implements ActionListener {
       for (int i=0; i<solutionArray.length; i++) {
         solutionArray[i] = solution.get(i);
       }
+      Sorter sorter = new Sorter(solutionArray);
+      sorter.alphabetize(0, solutionArray.length);
+      solutionArray = sorter.getSorted();
       // Display the scroll pane
       scrollPane.setVisible(true);
       // Add each answer to the scroll pane
