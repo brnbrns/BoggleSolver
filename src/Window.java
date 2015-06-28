@@ -199,10 +199,14 @@ public class Window extends JFrame implements ActionListener {
       Graph g = new Graph(board, dict);
       // Get the solution
       ArrayList<String> solution = g.solve();
+      String[] solutionArray = new String[solution.size()];
+      for (int i=0; i<solutionArray.length; i++) {
+        solutionArray[i] = solution.get(i);
+      }
       // Display the scroll pane
       scrollPane.setVisible(true);
       // Add each answer to the scroll pane
-      for (String word : solution) {
+      for (String word : solutionArray) {
         words.addElement(word);
       }
       // Display the word count
