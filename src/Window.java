@@ -40,9 +40,11 @@ public class Window extends JFrame implements ActionListener {
    * Shows the number of words found
    */
   private JLabel wordCount;
-
+	/**
+	 * Displays 'Search:' above the search box
+	 */
   private JLabel search;
-	
+
   /**
    * Button for selecting a dictionary file
    */
@@ -64,7 +66,9 @@ public class Window extends JFrame implements ActionListener {
    * Text field to enter the game board
    */
 	private JTextField boardEntry;
-
+	/**
+	 * Text field to enter a search query
+	 */
   private JTextField searchEntry;
 
   /**
@@ -90,6 +94,9 @@ public class Window extends JFrame implements ActionListener {
    */
   private CharacterTree dict = null;
 
+	/**
+	 * Character tree to search through solution words
+	 */
   private CharacterTree solutionTrie;
 
   /**
@@ -191,7 +198,7 @@ public class Window extends JFrame implements ActionListener {
 	/**
    * Handles actions on dictionary and solve buttons
    * @param e The event to act on
-   */ 
+   */
   public void actionPerformed(ActionEvent e) {
 		// User pressed select dictionary button
 		if (e.getSource() == dictButton) {
@@ -221,43 +228,56 @@ public class Window extends JFrame implements ActionListener {
       Graph g = new Graph(board, dict);
       // Get the solution
       ArrayList<String> solution = g.solve();
+			// Convert the solution to an array
       String[] solutionArray = new String[solution.size()];
       for (int i=0; i<solutionArray.length; i++) {
         solutionArray[i] = solution.get(i);
       }
+			// Sort the solution
       Sorter sorter = new Sorter(solutionArray);
       sorter.alphabetize(0, solutionArray.length);
       solutionArray = sorter.getSorted();
       // Display the scroll pane
       scrollPane.setVisible(true);
+			// Create a character tree from the solution words
       solutionTrie = new CharacterTree();
       // Add each answer to the scroll pane
       for (String word : solutionArray) {
         words.addElement(word);
+				// Add each answer to the solution trie
         solutionTrie.add(word);
       }
       // Display the word count
       wordCount.setText("Words found: " + solution.size());
       wordCount.setVisible(true);
+			// Display the search function
       search.setVisible(true);
       searchEntry.setVisible(true);
 
-
+		// User pressed enter in the search field
 		} else if (e.getSource() == searchEntry) {
-      String query = searchEntry.getText();
-      ArrayList<String> searchResult = solutionTrie.getValidWords(query.toUpperCase());
-      if (searchResult != null) {
-        String[] resultArray = new String[searchResult.size()];
+      // Get the query
+			String query = searchEntry.getText();
+      // Search the solution trie for matches
+			ArrayList<String> searchResult = solutionTrie.getValidWords(query.toUpperCase());
+      // If there are results
+			if (searchResult != null) {
+        // Convert the result to an array
+				String[] resultArray = new String[searchResult.size()];
         for (int i=0; i<resultArray.length; i++) {
           resultArray[i] = searchResult.get(i);
         }
+				// Remove all words from the answer box
         words.removeAllElements();
+				// Sort the search result
         Sorter sorter = new Sorter(resultArray);
         sorter.alphabetize(0, resultArray.length);
         resultArray = sorter.getSorted();
-        for (String s : resultArray) {
+        // Add the result to the answer box
+				for (String s : resultArray) {
           words.addElement(s);
         }
+				// If no result empty the answer box
       } else words.removeAllElements();
     }
 	}
@@ -315,7 +335,7 @@ public class Window extends JFrame implements ActionListener {
    * Splits the text entry based on where the rows end
    * @param text The string to split
    * @param size The size of each resulting string after splitting
-   * @return An array of the resulting strings after splitting 
+   * @return An array of the resulting strings after splitting
    */
 	private String[] splitBoard(String text, int size) {
     // Create the return string
@@ -328,7 +348,7 @@ public class Window extends JFrame implements ActionListener {
 		}
 		return result;
 	}
-  
+
   /**
    * Starts the program
    * @param args Command line arguments
