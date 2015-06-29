@@ -11,6 +11,9 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 
+// Suppress Serial Warnings
+@SuppressWarnings("serial")
+
 /**
  * Controls the GUI and contains main
  * @author Brian Burns
@@ -28,6 +31,7 @@ public class Window extends JFrame implements ActionListener {
    * Instructs user how to enter the game board
    */
 	private JLabel enterBoard;
+
   /**
    * Instructs user to enter dimensions
    */
@@ -74,11 +78,11 @@ public class Window extends JFrame implements ActionListener {
   /**
    * List Model for the solution
    */
-  private DefaultListModel words;
+  private DefaultListModel<String> words;
   /**
    * List for the solution words
    */
-  private JList wordList;
+  private JList<String> wordList;
   /**
    * Scroll pane to display solution words
    */
@@ -162,8 +166,8 @@ public class Window extends JFrame implements ActionListener {
 		solveButton.setLocation(350, 180);
 		c.add(solveButton);
 
-    words = new DefaultListModel();
-    wordList = new JList(words);
+    words = new DefaultListModel<String>();
+    wordList = new JList<String>(words);
     wordList.setFont(new Font("Monospaced", Font.PLAIN, 12));
     scrollPane = new JScrollPane(wordList);
     scrollPane.setSize(500, 300);
